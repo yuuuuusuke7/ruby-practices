@@ -69,14 +69,14 @@ if ARGV.size > 1 && options[:l]
   wc_command_opt_l_item_list = ARGV.map do |file_name|
     wc_command_opt_l_items(file_name)
   end
-  wc_command_opt_l_item_total = wc_command_opt_l_item_list.transpose.map { |count_line_file| count_line_file.inject(&:+) }
+  wc_command_opt_l_item_total = wc_command_opt_l_item_list.transpose.map(&:sum)
   wc_command_opt_l_item_total.each { |transpose_count_line_file| print transpose_count_line_file.to_s.rjust(8) }
   print " total \n"
 elsif ARGV.size > 1
   wc_command_item_list = ARGV.map do |file_name|
     wc_command_items(file_name)
   end
-  wc_command_item_total = wc_command_item_list.transpose.map { |wc_command_item| wc_command_item.inject(&:+) }
+  wc_command_item_total = wc_command_item_list.transpose.map(&:sum)
   wc_command_item_total.each { |same_wc_command_item| print same_wc_command_item.to_s.rjust(8) }
   print " total \n"
 end
