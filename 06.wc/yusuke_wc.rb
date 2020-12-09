@@ -2,12 +2,6 @@
 
 require 'optparse'
 
-options = {}
-OptionParser.new do |opt|
-  opt.on('-l') { |l| options[:l] = l }
-  opt.parse!(ARGV)
-end
-
 def count_line(file_read)
   file_read.count("\n")
 end
@@ -53,14 +47,20 @@ def print_stdin
   print "\n"
 end
 
+options = {}
+OptionParser.new do |opt|
+  opt.on('-l') { |l| options[:l] = l }
+  opt.parse!(ARGV)
+end
+
 if ARGV.empty?
   print_stdin
 elsif options[:l]
-  ARGV.map do |file_name|
+  ARGV.each do |file_name|
     print_wc_command_opt_l(file_name)
   end
 else
-  ARGV.map do |file_name|
+  ARGV.each do |file_name|
     print_wc_command(file_name)
   end
 end
@@ -70,13 +70,13 @@ if ARGV.size > 1 && options[:l]
     wc_command_opt_l_items(file_name)
   end
   wc_command_opt_l_item_total = wc_command_opt_l_item_list.transpose.map { |count_line_file| count_line_file.inject(&:+) }
-  wc_command_opt_l_item_total.map { |transpose_count_line_file| print transpose_count_line_file.to_s.rjust(8) }
+  wc_command_opt_l_item_total.each { |transpose_count_line_file| print transpose_count_line_file.to_s.rjust(8) }
   print " total \n"
 elsif ARGV.size > 1
   wc_command_item_list = ARGV.map do |file_name|
     wc_command_items(file_name)
   end
   wc_command_item_total = wc_command_item_list.transpose.map { |wc_command_item| wc_command_item.inject(&:+) }
-  wc_command_item_total.map { |same_wc_command_item| print same_wc_command_item.to_s.rjust(8) }
+  wc_command_item_total.each { |same_wc_command_item| print same_wc_command_item.to_s.rjust(8) }
   print " total \n"
 end
