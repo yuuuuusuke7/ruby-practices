@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require './frame'
+require './shot'
+
 class Game
   attr_reader :input_text
 
@@ -44,40 +47,3 @@ class Game
     @frame_instance = @frames.map { |shots| Frame.new(*shots) }
   end
 end
-
-class Frame
-  STRIKE = 10
-  attr_reader :first_shot, :second_shot, :third_shot
-
-  def initialize(first_shot, second_shot = nil, third_shot = nil)
-    @first_shot = Shot.new(first_shot)
-    @second_shot = Shot.new(second_shot)
-    @third_shot = Shot.new(third_shot)
-  end
-
-  def strike?
-    @first_shot.score == STRIKE
-  end
-
-  def spare?
-    @first_shot.score != STRIKE && [@first_shot.score, @second_shot.score].sum == 10
-  end
-
-  class << self
-    def pinfalls(pinfall_text)
-      pinfall_text.split(',').map { |pinfall| Shot.new(pinfall).score }
-    end
-  end
-end
-
-class Shot
-  def initialize(pinfall)
-    @pinfall = pinfall
-  end
-
-  def score
-    @pinfall == 'X' ? 10 : @pinfall.to_i
-  end
-end
-
-puts Game.new(ARGV[0]).calculate_score
