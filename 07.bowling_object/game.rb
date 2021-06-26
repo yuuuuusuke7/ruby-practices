@@ -4,8 +4,6 @@ require './frame'
 require './shot'
 
 class Game
-  attr_reader :input_text
-
   def initialize(input_text)
     create_frame(input_text)
   end
