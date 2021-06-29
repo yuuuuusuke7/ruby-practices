@@ -20,10 +20,14 @@ class Frame
   end
 
   class << self
+    def pinfalls(pinfall_text)
+      pinfall_text.split(',').map { |pinfall| Shot.new(pinfall).score }
+    end
+
     def build_score_text(pinfall_text)
       scores_for_each_frame = []
       frame = []
-      Shot.pinfalls(pinfall_text).each do |shot|
+      pinfalls(pinfall_text).each do |shot|
         frame << shot
         if frame.count == 2 || frame.count == 1 && shot == 10 || scores_for_each_frame[9]
           scores_for_each_frame << frame
