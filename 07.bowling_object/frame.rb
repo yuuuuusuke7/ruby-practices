@@ -12,10 +12,14 @@ class Frame
   end
 
   def strike?
-    @first_shot == STRIKE
+    @first_shot.score == STRIKE
   end
 
   def spare?
-    @first_shot != STRIKE && [@first_shot, @second_shot].sum == 10
+    @first_shot.score != STRIKE && [@first_shot.score, @second_shot.score].sum == 10
+  end
+
+  def shots
+    [@first_shot, @second_shot, @third_shot].compact
   end
 end
