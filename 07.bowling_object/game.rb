@@ -19,20 +19,6 @@ class Game
   end
 
   def bonus_score
-    shots = @frames.map(&:shots).flatten
-    shot_count = 0
-    @frames.each.sum do |frame|
-
-      if frame.strike?
-        shot_count += 1
-        shots[shot_count, 2].map(&:score).sum
-      elsif frame.spare?
-        shot_count += 2
-        shots[shot_count].score
-      else
-        shot_count += 2
-        0
-      end
-    end
+    @frames.map(&:bonus_score).sum
   end
 end
