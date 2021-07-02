@@ -26,4 +26,20 @@ class Frame
   def base_score
     (self.strike? || self.spare?) ? STRIKE : shots.map(&:score).sum
   end
+
+  class << self
+    def build_frames(pinfall_text)
+      shots = pinfall_text.split(',').map { |pinfall| Shot.new(pinfall) }
+
+      10.times.map do |index|
+        if index == 9
+          Frame.new(*shots)
+        else
+          first_shot = shots.shift
+          frame = Frame.new(first_shot)
+          frame.strike? ? frame : Frame.new(first_shot, shots.shift)
+        end
+      end
+    end
+  end
 end
