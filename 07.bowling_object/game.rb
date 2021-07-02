@@ -15,7 +15,7 @@ class Game
   private
 
   def base_score_with_bonus_score_for_last_frame
-    @shots.flatten.map(&:score).sum
+    @frames.map(&:shots).flatten.map(&:score).sum
   end
 
   def bonus_score_without_bonus_score_of_last_frame
@@ -33,11 +33,11 @@ class Game
   end
 
   def build_frames(pinfall_text)
-    @shots = pinfall_text.split(',').map { |pinfall| Shot.new(pinfall) }
+    shots = pinfall_text.split(',').map { |pinfall| Shot.new(pinfall) }
 
     scores_for_each_frame = []
     frame = []
-    @shots.each do |shot|
+    shots.each do |shot|
       frame << shot
       if frame.count == 2 || frame.count == 1 && shot.score == 10 || scores_for_each_frame[9]
         scores_for_each_frame << frame
