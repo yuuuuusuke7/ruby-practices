@@ -22,4 +22,8 @@ class Frame
   def shots
     [@first_shot, @second_shot, @third_shot].compact
   end
+
+  def base_score
+    (self.strike? || self.spare?) ? STRIKE : shots.map(&:score).sum
+  end
 end
