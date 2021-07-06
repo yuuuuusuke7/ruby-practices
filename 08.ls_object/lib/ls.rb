@@ -6,6 +6,7 @@ MAX_FILENAME_COUNT = 21
 
 def run_ls(pathname, width: 80, long_format: false, reverse: false, dot_match: false)
   filenames = Dir.glob('*').sort
+  filenames = filenames.reverse if reverse
   ls_short_format(filenames.map(&:to_s), width: 80)
 end
 
@@ -34,6 +35,6 @@ end
 
 def format_table(filenames)
   filenames.map do |row_files|
-  row_files.map { |filename| filename.to_s.ljust(MAX_FILENAME_COUNT) }.join.rstrip
+    row_files.map { |filename| filename.to_s.ljust(MAX_FILENAME_COUNT) }.join.rstrip
   end.join("\n")
 end
