@@ -5,10 +5,9 @@ require 'pathname'
 MAX_FILENAME_COUNT = 21
 
 def run_ls(pathname, width: 80, long_format: false, reverse: false, dot_match: false)
-  filenames = Dir.glob('*').sort
-  filenames = Dir.glob('*', File::FNM_DOTMATCH).sort if dot_match
-  filenames = filenames.reverse if reverse
-  ls_short_format(filenames.map(&:to_s), width: 80)
+  filenames = dot_match ? Dir.glob('*', File::FNM_DOTMATCH).sort : Dir.glob('*').sort
+  filenames = reverse ? filenames.reverse : filenames
+  ls_short_format(filenames, width: 80)
 end
 
 def ls_long_format(filenames)
