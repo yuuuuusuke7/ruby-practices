@@ -4,7 +4,7 @@ require 'minitest/autorun'
 require '~/ruby-practices/08.ls_object/lib/ls'
 
 class LsCommandTest < Minitest::Test
-  TARGET_PATHNAME = Pathname('~/ruby-practices/08.ls_object/test/fixtures/sample_files')
+  TARGET_PATHNAME = Pathname('~/ruby-practices/08.ls_object/test')
 
   def test_run_ls
     expected = <<~TEXT.chomp
