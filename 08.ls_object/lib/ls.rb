@@ -27,10 +27,10 @@ FILE_MODES = {
   "0" => "---"
 }.freeze
 
-def run_ls(pathname, width: 80, long_format: false, reverse: false, dot_match: false)
+def run_ls(pathname, width, long_format: false, reverse: false, dot_match: false)
   filenames = dot_match ? Dir.glob('*', File::FNM_DOTMATCH).sort : Dir.glob('*').sort
   filenames = reverse ? filenames.reverse : filenames
-  long_format ? ls_long_format(filenames) : ls_short_format(filenames, width: 80)
+  long_format ? ls_long_format(filenames) : ls_short_format_display(filenames, width)
 end
 
 def ls_long_format(filenames)
@@ -122,17 +122,20 @@ def mtime(file_stat)
 end
 
 # MAX_FILENAME_COUNT = 21
-def ls_short_format(filenames, width: 80)
-  transposed_file_names = safe_transpose(filenames.each_slice(row_count(filenames, width: 80)).to_a)
+class LsShortFormat
+
+end
+def ls_short_format_display(filenames, width)
+  transposed_file_names = safe_transpose(filenames.each_slice(row_count(filenames, width)).to_a)
   format_table(transposed_file_names)
 end
 
-def columns(width: 80)
+def columns(width)
   width / MAX_FILENAME_COUNT
 end
 
-def row_count(filenames, width: 80)
-  (filenames.count.to_f / columns(width: 80)).ceil
+def row_count(filenames, width)
+  (filenames.count.to_f / columns(width)).ceil
 end
 
 def safe_transpose(filenames)

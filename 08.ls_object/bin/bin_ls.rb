@@ -3,8 +3,8 @@
 
 require 'optparse'
 require 'pathname'
-
 require '../lib/ls'
+WIDTH = 80
 
 opt = OptionParser.new
 
@@ -16,4 +16,4 @@ opt.parse!(ARGV)
 path = ARGV[0] || '.'
 pathname = Pathname(path)
 
-puts run_ls(pathname, width: 80, **params)
+puts run_ls(pathname, WIDTH, **params)
