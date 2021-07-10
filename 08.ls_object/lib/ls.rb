@@ -27,10 +27,20 @@ FILE_MODES = {
   "0" => "---"
 }.freeze
 
-def run_ls(pathname, width, long_format: false, reverse: false, dot_match: false)
-  filenames = dot_match ? Dir.glob('*', File::FNM_DOTMATCH).sort : Dir.glob('*').sort
-  filenames = reverse ? filenames.reverse : filenames
-  long_format ? ls_long_format(filenames) : ls_short_format_display(filenames, width)
+class LsCommandExecution
+  def initialize(filenames, width, long_format: false, reverse: false, dot_match: false)
+    @filenames = filenames
+    @width = width
+    @long_format = long_format
+    @reverse = reverse
+    @dot_match = dot_match
+  end
+
+  def run_ls
+    @filenames = @dot_match ? Dir.glob('*', File::FNM_DOTMATCH).sort : Dir.glob('*').sort
+    @filenames = @reverse ? @filenames.reverse : @filenames
+    @long_format ? ls_long_format(@filenames) : ls_short_format_display(@filenames, @width)
+  end
 end
 
 def ls_long_format(filenames)

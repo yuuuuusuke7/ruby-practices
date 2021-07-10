@@ -16,4 +16,4 @@ opt.parse!(ARGV)
 path = ARGV[0] || '.'
 pathname = Pathname(path)
 
-puts run_ls(pathname, WIDTH, **params)
+puts LsCommandExecution.new(pathname, WIDTH, **params).run_ls

@@ -16,7 +16,7 @@ class LsCommandTest < Minitest::Test
       Yusuke               abc
       a                    bowling.rb
     TEXT
-    assert_equal expected, run_ls(TARGET_PATHNAME, WIDTH)
+    assert_equal expected, LsCommandExecution.new(TARGET_PATHNAME, WIDTH).run_ls
   end
 
   # def test_run_ls_reverse
