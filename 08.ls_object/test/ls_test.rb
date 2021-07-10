@@ -43,53 +43,53 @@ class LsCommandTest < Minitest::Test
     assert_equal expected, LsCommandExecution.new(TARGET_PATHNAME, WIDTH, dot_match: true).run_ls
   end
 
-  # def test_run_ls_long_format
-  #   expected = <<~TEXT.chomp
-  #     total 32
-  #     -rw-r--r--  1 yusuke  staff     0  6 22 17:34 12345
-  #     -rw-r--r--  1 yusuke  staff     0  6 22 17:34 123456789
-  #     -rw-r--r--  1 yusuke  staff     0  6 22 17:34 9999
-  #     -rw-r--r--  1 yusuke  staff     0  6 21 22:35 AAAAAAAAAAAAAAA
-  #     -rw-r--r--  1 yusuke  staff     0  6 21 22:35 Yusuke
-  #     -rw-r--r--  1 yusuke  staff     0  6 21 22:34 a
-  #     -rw-r--r--  1 yusuke  staff     0  6 21 22:34 aa
-  #     -rw-r--r--  1 yusuke  staff     0  6 21 22:34 aaa
-  #     -rw-r--r--  1 yusuke  staff     0  6 21 22:34 aaaa
-  #     -rw-r--r--  1 yusuke  staff     0  6 21 22:34 aaaaa
-  #     -rw-r--r--  1 yusuke  staff     0  6 22 17:35 abc
-  #     -rw-r--r--  1 yusuke  staff   828  7  5 10:16 bowling.rb
-  #     -rw-r--r--  1 yusuke  staff     0  6 21 22:34 defghijk
-  #     -rw-r--r--  1 yusuke  staff     0  6 21 22:34 derectory
-  #     -rw-r--r--  1 yusuke  staff  4119  7  9 15:44 ls_test.rb
-  #     -rw-r--r--  1 yusuke  staff  1536  7  5 10:26 practice_taiyaki.rb
-  #   TEXT
-  #   # expected = `ls -l #{TARGET_PATHNAME}`.chomp
-  #   assert_equal expected, run_ls(TARGET_PATHNAME, long_format: true)
-  # end
+  def test_run_ls_long_format
+    expected = <<~TEXT.chomp
+      total 32
+      -rw-r--r--  1 yusuke  staff     0  6 22 17:34 12345
+      -rw-r--r--  1 yusuke  staff     0  6 22 17:34 123456789
+      -rw-r--r--  1 yusuke  staff     0  6 22 17:34 9999
+      -rw-r--r--  1 yusuke  staff     0  6 21 22:35 AAAAAAAAAAAAAAA
+      -rw-r--r--  1 yusuke  staff     0  6 21 22:35 Yusuke
+      -rw-r--r--  1 yusuke  staff     0  6 21 22:34 a
+      -rw-r--r--  1 yusuke  staff     0  6 21 22:34 aa
+      -rw-r--r--  1 yusuke  staff     0  6 21 22:34 aaa
+      -rw-r--r--  1 yusuke  staff     0  6 21 22:34 aaaa
+      -rw-r--r--  1 yusuke  staff     0  6 21 22:34 aaaaa
+      -rw-r--r--  1 yusuke  staff     0  6 22 17:35 abc
+      -rw-r--r--  1 yusuke  staff   828  7  5 10:16 bowling.rb
+      -rw-r--r--  1 yusuke  staff     0  6 21 22:34 defghijk
+      -rw-r--r--  1 yusuke  staff     0  6 21 22:34 derectory
+      -rw-r--r--  1 yusuke  staff  4249  7 10 11:17 ls_test.rb
+      -rw-r--r--  1 yusuke  staff  1536  7  5 10:26 practice_taiyaki.rb
+    TEXT
+    # expected = `ls -l #{TARGET_PATHNAME}`.chomp
+    assert_equal expected, LsCommandExecution.new(TARGET_PATHNAME, WIDTH, long_format: true).run_ls
+  end
 
-  # def test_run_ls_all_options # rubocop:disable all
-  #   expected = <<~TEXT.chomp
-  #     total 32
-  #     -rw-r--r--   1 yusuke  staff  1536  7  5 10:26 practice_taiyaki.rb
-  #     -rw-r--r--   1 yusuke  staff  4119  7  9 15:44 ls_test.rb
-  #     -rw-r--r--   1 yusuke  staff     0  6 21 22:34 derectory
-  #     -rw-r--r--   1 yusuke  staff     0  6 21 22:34 defghijk
-  #     -rw-r--r--   1 yusuke  staff   828  7  5 10:16 bowling.rb
-  #     -rw-r--r--   1 yusuke  staff     0  6 22 17:35 abc
-  #     -rw-r--r--   1 yusuke  staff     0  6 21 22:34 aaaaa
-  #     -rw-r--r--   1 yusuke  staff     0  6 21 22:34 aaaa
-  #     -rw-r--r--   1 yusuke  staff     0  6 21 22:34 aaa
-  #     -rw-r--r--   1 yusuke  staff     0  6 21 22:34 aa
-  #     -rw-r--r--   1 yusuke  staff     0  6 21 22:34 a
-  #     -rw-r--r--   1 yusuke  staff     0  6 21 22:35 Yusuke
-  #     -rw-r--r--   1 yusuke  staff     0  6 21 22:35 AAAAAAAAAAAAAAA
-  #     -rw-r--r--   1 yusuke  staff     0  6 22 17:34 9999
-  #     -rw-r--r--   1 yusuke  staff     0  6 22 17:34 123456789
-  #     -rw-r--r--   1 yusuke  staff     0  6 22 17:34 12345
-  #     drwxr-xr-x   7 yusuke  staff   224  7  7 16:01 ..
-  #     drwxr-xr-x  18 yusuke  staff   576  7  9 15:38 .
-  #   TEXT
-  #   # expected = `ls -lar #{TARGET_PATHNAME}`.chomp
-  #   assert_equal expected, run_ls(TARGET_PATHNAME, long_format: true, reverse: true, dot_match: true)
-  # end
+  def test_run_ls_all_options # rubocop:disable all
+    expected = <<~TEXT.chomp
+      total 32
+      -rw-r--r--   1 yusuke  staff  1536  7  5 10:26 practice_taiyaki.rb
+      -rw-r--r--   1 yusuke  staff  4249  7 10 11:17 ls_test.rb
+      -rw-r--r--   1 yusuke  staff     0  6 21 22:34 derectory
+      -rw-r--r--   1 yusuke  staff     0  6 21 22:34 defghijk
+      -rw-r--r--   1 yusuke  staff   828  7  5 10:16 bowling.rb
+      -rw-r--r--   1 yusuke  staff     0  6 22 17:35 abc
+      -rw-r--r--   1 yusuke  staff     0  6 21 22:34 aaaaa
+      -rw-r--r--   1 yusuke  staff     0  6 21 22:34 aaaa
+      -rw-r--r--   1 yusuke  staff     0  6 21 22:34 aaa
+      -rw-r--r--   1 yusuke  staff     0  6 21 22:34 aa
+      -rw-r--r--   1 yusuke  staff     0  6 21 22:34 a
+      -rw-r--r--   1 yusuke  staff     0  6 21 22:35 Yusuke
+      -rw-r--r--   1 yusuke  staff     0  6 21 22:35 AAAAAAAAAAAAAAA
+      -rw-r--r--   1 yusuke  staff     0  6 22 17:34 9999
+      -rw-r--r--   1 yusuke  staff     0  6 22 17:34 123456789
+      -rw-r--r--   1 yusuke  staff     0  6 22 17:34 12345
+      drwxr-xr-x   7 yusuke  staff   224  7  7 16:01 ..
+      drwxr-xr-x  18 yusuke  staff   576  7  9 15:38 .
+    TEXT
+    # expected = `ls -lar #{TARGET_PATHNAME}`.chomp
+    assert_equal expected, LsCommandExecution.new(TARGET_PATHNAME, WIDTH, long_format: true, reverse: true, dot_match: true).run_ls
+  end
 end
