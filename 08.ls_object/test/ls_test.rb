@@ -19,17 +19,17 @@ class LsCommandTest < Minitest::Test
     assert_equal expected, LsCommandExecution.new(TARGET_PATHNAME, WIDTH).run_ls
   end
 
-  # def test_run_ls_reverse
-  #   expected = <<~TEXT.chomp
-  #     practice_taiyaki.rb  aaaaa                AAAAAAAAAAAAAAA
-  #     ls_test.rb           aaaa                 9999
-  #     derectory            aaa                  123456789
-  #     defghijk             aa                   12345
-  #     bowling.rb           a
-  #     abc                  Yusuke
-  #   TEXT
-  #   assert_equal expected, run_ls(TARGET_PATHNAME, width: 80, reverse: true)
-  # end
+  def test_run_ls_reverse
+    expected = <<~TEXT.chomp
+      practice_taiyaki.rb  aaaaa                AAAAAAAAAAAAAAA
+      ls_test.rb           aaaa                 9999
+      derectory            aaa                  123456789
+      defghijk             aa                   12345
+      bowling.rb           a
+      abc                  Yusuke
+    TEXT
+    assert_equal expected, LsCommandExecution.new(TARGET_PATHNAME, WIDTH, reverse: true).run_ls
+  end
 
   # def test_run_ls_dot_much
   #   expected = <<~TEXT.chomp

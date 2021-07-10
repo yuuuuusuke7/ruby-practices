@@ -39,7 +39,7 @@ class LsCommandExecution
   def run_ls
     @filenames = @dot_match ? Dir.glob('*', File::FNM_DOTMATCH).sort : Dir.glob('*').sort
     @filenames = @reverse ? @filenames.reverse : @filenames
-    @long_format ? ls_long_format(@filenames) : ls_short_format_display(@filenames, @width)
+    @long_format ? ls_long_format(@filenames) : LsShortFormat.new(@filenames, @width).ls_short_format_display
   end
 end
 
@@ -132,30 +132,32 @@ def mtime(file_stat)
 end
 
 # MAX_FILENAME_COUNT = 21
-class LsShortFormat
+class LsShortFormat < LsCommandExecution
+  def initialize(filenames, width)
+    super
+  end
 
-end
-def ls_short_format_display(filenames, width)
-  transposed_file_names = safe_transpose(filenames.each_slice(row_count(filenames, width)).to_a)
-  format_table(transposed_file_names)
-end
+  def ls_short_format_display
+    transposed_file_names = safe_transpose(@filenames.each_slice(row_count(@filenames, @width)).to_a)
+    format_table(transposed_file_names)
+  end
 
-def columns(width)
-  width / MAX_FILENAME_COUNT
-end
+  def columns(width)
+    width / MAX_FILENAME_COUNT
+  end
 
-def row_count(filenames, width)
-  (filenames.count.to_f / columns(width)).ceil
-end
+  def row_count(filenames, width)
+    (filenames.count.to_f / columns(width)).ceil
+  end
 
-def safe_transpose(filenames)
-  first, *rest = filenames
-  first.zip(*rest)
-end
+  def safe_transpose(filenames)
+    first, *rest = filenames
+    first.zip(*rest)
+  end
 
-def format_table(filenames)
-  filenames.map do |row_files|
-    row_files.map { |filename| filename.to_s.ljust(MAX_FILENAME_COUNT) }.join.rstrip
-  end.join("\n")
+  def format_table(filenames)
+    filenames.map do |row_files|
+      row_files.map { |filename| filename.to_s.ljust(MAX_FILENAME_COUNT) }.join.rstrip
+    end.join("\n")
+  end
 end
-
