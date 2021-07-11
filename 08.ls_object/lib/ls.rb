@@ -3,7 +3,20 @@
 require 'etc'
 require 'pathname'
 
-MAX_FILENAME_COUNT = 21 # 横幅の文字最大21文字に設定
+class LsCommandExecution
+  def initialize(filenames, long_format: false, reverse: false, dot_match: false)
+    @filenames = filenames
+    @long_format = long_format
+    @reverse = reverse
+    @dot_match = dot_match
+  end
+
+  def run_ls
+    @filenames = @dot_match ? Dir.glob('*', File::FNM_DOTMATCH).sort : Dir.glob('*').sort
+    @filenames = @reverse ? @filenames.reverse : @filenames
+    @long_format ? LsLongFormat.new(@filenames).ls_long_format_display : LsShortFormat.new(@filenames).ls_short_format_display
+  end
+end
 
 FILE_TYPES = {
   file: '-',
@@ -27,26 +40,7 @@ FILE_MODES = {
   "0" => "---"
 }.freeze
 
-class LsCommandExecution
-  def initialize(filenames, width, long_format: false, reverse: false, dot_match: false)
-    @filenames = filenames
-    @width = width
-    @long_format = long_format
-    @reverse = reverse
-    @dot_match = dot_match
-  end
-
-  def run_ls
-    @filenames = @dot_match ? Dir.glob('*', File::FNM_DOTMATCH).sort : Dir.glob('*').sort
-    @filenames = @reverse ? @filenames.reverse : @filenames
-    @long_format ? LsLongFormat.new(@filenames).ls_long_format_display : LsShortFormat.new(@filenames, @width).ls_short_format_display
-  end
-end
-
 class LsLongFormat < LsCommandExecution
-  def initialize(filenames)
-    @filenames = filenames
-  end
 
   def ls_long_format_display
     row_data = @filenames.map do |filename|
@@ -137,23 +131,22 @@ class LsLongFormat < LsCommandExecution
   end
 end
 
-# MAX_FILENAME_COUNT = 21
+WIDTH = 80 # widthを80に固定
+MAX_FILENAME_COUNT = 21 # 横幅の文字最大21文字に設定
+
 class LsShortFormat < LsCommandExecution
-  def initialize(filenames, width)
-    super
-  end
 
   def ls_short_format_display
-    transposed_file_names = safe_transpose(@filenames.each_slice(row_count(@filenames, @width)).to_a)
+    transposed_file_names = safe_transpose(@filenames.each_slice(row_count).to_a)
     format_table(transposed_file_names)
   end
 
-  def columns(width)
-    width / MAX_FILENAME_COUNT
+  def columns
+    WIDTH / MAX_FILENAME_COUNT
   end
 
-  def row_count(filenames, width)
-    (filenames.count.to_f / columns(width)).ceil
+  def row_count
+    (@filenames.count.to_f / columns).ceil
   end
 
   def safe_transpose(filenames)

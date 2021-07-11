@@ -16,7 +16,7 @@ class LsCommandTest < Minitest::Test
       Yusuke               abc
       a                    bowling.rb
     TEXT
-    assert_equal expected, LsCommandExecution.new(TARGET_PATHNAME, WIDTH).run_ls
+    assert_equal expected, LsCommandExecution.new(TARGET_PATHNAME).run_ls
   end
 
   def test_run_ls_reverse
@@ -28,7 +28,7 @@ class LsCommandTest < Minitest::Test
       bowling.rb           a
       abc                  Yusuke
     TEXT
-    assert_equal expected, LsCommandExecution.new(TARGET_PATHNAME, WIDTH, reverse: true).run_ls
+    assert_equal expected, LsCommandExecution.new(TARGET_PATHNAME, reverse: true).run_ls
   end
 
   def test_run_ls_dot_much
@@ -40,7 +40,7 @@ class LsCommandTest < Minitest::Test
       9999                 aaaa                 ls_test.rb
       AAAAAAAAAAAAAAA      aaaaa                practice_taiyaki.rb
     TEXT
-    assert_equal expected, LsCommandExecution.new(TARGET_PATHNAME, WIDTH, dot_match: true).run_ls
+    assert_equal expected, LsCommandExecution.new(TARGET_PATHNAME, dot_match: true).run_ls
   end
 
   def test_run_ls_long_format
@@ -60,18 +60,18 @@ class LsCommandTest < Minitest::Test
       -rw-r--r--  1 yusuke  staff   828  7  5 10:16 bowling.rb
       -rw-r--r--  1 yusuke  staff     0  6 21 22:34 defghijk
       -rw-r--r--  1 yusuke  staff     0  6 21 22:34 derectory
-      -rw-r--r--  1 yusuke  staff  4249  7 10 11:17 ls_test.rb
+      -rw-r--r--  1 yusuke  staff  4214  7 11 11:53 ls_test.rb
       -rw-r--r--  1 yusuke  staff  1536  7  5 10:26 practice_taiyaki.rb
     TEXT
     # expected = `ls -l #{TARGET_PATHNAME}`.chomp
-    assert_equal expected, LsCommandExecution.new(TARGET_PATHNAME, WIDTH, long_format: true).run_ls
+    assert_equal expected, LsCommandExecution.new(TARGET_PATHNAME, long_format: true).run_ls
   end
 
   def test_run_ls_all_options # rubocop:disable all
     expected = <<~TEXT.chomp
       total 32
       -rw-r--r--   1 yusuke  staff  1536  7  5 10:26 practice_taiyaki.rb
-      -rw-r--r--   1 yusuke  staff  4249  7 10 11:17 ls_test.rb
+      -rw-r--r--   1 yusuke  staff  4214  7 11 11:53 ls_test.rb
       -rw-r--r--   1 yusuke  staff     0  6 21 22:34 derectory
       -rw-r--r--   1 yusuke  staff     0  6 21 22:34 defghijk
       -rw-r--r--   1 yusuke  staff   828  7  5 10:16 bowling.rb
@@ -90,6 +90,6 @@ class LsCommandTest < Minitest::Test
       drwxr-xr-x  18 yusuke  staff   576  7  9 15:38 .
     TEXT
     # expected = `ls -lar #{TARGET_PATHNAME}`.chomp
-    assert_equal expected, LsCommandExecution.new(TARGET_PATHNAME, WIDTH, long_format: true, reverse: true, dot_match: true).run_ls
+    assert_equal expected, LsCommandExecution.new(TARGET_PATHNAME, long_format: true, reverse: true, dot_match: true).run_ls
   end
 end

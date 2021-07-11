@@ -4,7 +4,6 @@
 require 'optparse'
 require 'pathname'
 require '../lib/ls'
-WIDTH = 80
 
 opt = OptionParser.new
 
@@ -16,4 +15,4 @@ opt.parse!(ARGV)
 path = ARGV[0] || '.'
 pathname = Pathname(path)
 
-puts LsCommandExecution.new(pathname, WIDTH, **params).run_ls
+puts LsCommandExecution.new(pathname, **params).run_ls
