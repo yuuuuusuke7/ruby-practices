@@ -3,7 +3,9 @@
 
 require 'optparse'
 require 'pathname'
-require '../lib/ls'
+require '../lib/ls_command_execution'
+require '../lib/ls_long_format'
+require '../lib/ls_short_format'
 
 opt = OptionParser.new
 
