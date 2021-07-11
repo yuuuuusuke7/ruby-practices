@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-require '~/ruby-practices/08.ls_object/lib/ls'
+require '~/ruby-practices/08.ls_object/bin/main'
 
 class LsCommandTest < Minitest::Test
   TARGET_PATHNAME = Pathname('~/ruby-practices/08.ls_object/test')
@@ -60,7 +60,7 @@ class LsCommandTest < Minitest::Test
       -rw-r--r--  1 yusuke  staff   828  7  5 10:16 bowling.rb
       -rw-r--r--  1 yusuke  staff     0  6 21 22:34 defghijk
       -rw-r--r--  1 yusuke  staff     0  6 21 22:34 derectory
-      -rw-r--r--  1 yusuke  staff  4214  7 11 11:53 ls_test.rb
+      -rw-r--r--  1 yusuke  staff  4216  7 11 19:45 ls_test.rb
       -rw-r--r--  1 yusuke  staff  1536  7  5 10:26 practice_taiyaki.rb
     TEXT
     # expected = `ls -l #{TARGET_PATHNAME}`.chomp
@@ -71,7 +71,7 @@ class LsCommandTest < Minitest::Test
     expected = <<~TEXT.chomp
       total 32
       -rw-r--r--   1 yusuke  staff  1536  7  5 10:26 practice_taiyaki.rb
-      -rw-r--r--   1 yusuke  staff  4214  7 11 11:53 ls_test.rb
+      -rw-r--r--   1 yusuke  staff  4216  7 11 19:45 ls_test.rb
       -rw-r--r--   1 yusuke  staff     0  6 21 22:34 derectory
       -rw-r--r--   1 yusuke  staff     0  6 21 22:34 defghijk
       -rw-r--r--   1 yusuke  staff   828  7  5 10:16 bowling.rb
@@ -86,8 +86,8 @@ class LsCommandTest < Minitest::Test
       -rw-r--r--   1 yusuke  staff     0  6 22 17:34 9999
       -rw-r--r--   1 yusuke  staff     0  6 22 17:34 123456789
       -rw-r--r--   1 yusuke  staff     0  6 22 17:34 12345
-      drwxr-xr-x   7 yusuke  staff   224  7  7 16:01 ..
-      drwxr-xr-x  18 yusuke  staff   576  7  9 15:38 .
+      drwxr-xr-x   7 yusuke  staff   224  7 11 12:39 ..
+      drwxr-xr-x  18 yusuke  staff   576  7 11 12:39 .
     TEXT
     # expected = `ls -lar #{TARGET_PATHNAME}`.chomp
     assert_equal expected, LsCommandExecution.new(TARGET_PATHNAME, long_format: true, reverse: true, dot_match: true).run_ls
